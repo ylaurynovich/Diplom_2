@@ -9,7 +9,7 @@ public class OrderClient extends BaseClient{
     @Step("Get ingredients id")
     public ArrayList<String> getIngredientsId() {
         return given()
-                .header("Content-type", JSON)
+                .spec(BaseClient.getBaseSpec())
                 .get(BASEURL + "/api/ingredients")
                 .path("data._id");
     }
@@ -17,7 +17,7 @@ public class OrderClient extends BaseClient{
     @Step("Create order")
     public Response createOrder(Order data, String  accessToken) {
         return given()
-                .header("Content-type", JSON)
+                .spec(BaseClient.getBaseSpec())
                 .header("Authorization", accessToken)
                 .and()
                 .body(data)
@@ -28,7 +28,7 @@ public class OrderClient extends BaseClient{
     @Step("Get user's orders")
     public Response getUserOrders(String  accessToken) {
         return given()
-                .header("Content-type", JSON)
+                .spec(BaseClient.getBaseSpec())
                 .header("Authorization", accessToken)
                 .get(BASEURL + ENDPOINT);
 

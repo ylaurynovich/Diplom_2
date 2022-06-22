@@ -8,7 +8,7 @@ public class UserClient extends BaseClient{
     @Step("Create user")
     public Response createUser(User user) {
         return given()
-                .header("Content-type", JSON)
+                .spec(BaseClient.getBaseSpec())
                 .and()
                 .body(user)
                 .when()
@@ -18,7 +18,7 @@ public class UserClient extends BaseClient{
     @Step("Delete user")
     public Response deleteUser(String accessToken) {
         return given()
-                .header("Content-type", JSON)
+                .spec(BaseClient.getBaseSpec())
                 .header("Authorization", accessToken)
                 .delete(BASEURL + ENDPOINT + "/user");
     }
@@ -27,7 +27,7 @@ public class UserClient extends BaseClient{
     @Step("User login")
     public Response loginUser(User user) {
         return given()
-                .header("Content-type", JSON)
+                .spec(BaseClient.getBaseSpec())
                 .and()
                 .body(user)
                 .when()
@@ -37,7 +37,7 @@ public class UserClient extends BaseClient{
     @Step("Change user data")
     public Response changeUserData(User user, String  accessToken) {
         return given()
-                .header("Content-type", JSON)
+                .spec(BaseClient.getBaseSpec())
                 .header("Authorization", accessToken)
                 .and()
                 .body(user)

@@ -33,8 +33,8 @@ public class ModifyUserDataTest {
                 .then()
                 .statusCode(200)
                 .body("success", equalTo(true))
-                .body("user.email", equalTo(newUser.email))
-                .body("user.name", equalTo(newUser.name));
+                .body("user.email", equalTo(newUser.getEmail()))
+                .body("user.name", equalTo(newUser.getName()));
     }
 
     @Test

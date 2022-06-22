@@ -3,8 +3,8 @@ import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.ArrayList;
+
 
 
 import static org.hamcrest.CoreMatchers.*;
@@ -12,6 +12,7 @@ import static org.hamcrest.CoreMatchers.*;
 @DisplayName("Create order")
 public class CreateOrderTest {
 
+    public static final String invalidOrderId = "6d58a2d7-77b3-4c67-8004-dbd31e937fce";
     private final OrderClient orderClient = new OrderClient();
     private Order orderIngredientsIdList;
     private final UserClient userClient = new UserClient();
@@ -20,7 +21,7 @@ public class CreateOrderTest {
 
     @Before
     @DisplayName("Create user and extract access token")
-    public void setUp(){
+    public void setUp() {
         orderIngredientsIdList = new Order(orderClient.getIngredientsId());
         user = UserFaker.getRandomUserData();
     }
@@ -39,11 +40,11 @@ public class CreateOrderTest {
     @Test
     @DisplayName("Create order with authorization")
     public void createOrderWithAuthorizationTest(){
-        Response response1 = userClient.createUser(user);
-        accessToken = response1.path("accessToken");
+        Response userCreationResponse = userClient.createUser(user);
+        accessToken = userCreationResponse.path("accessToken");
 
-        Response response2 = orderClient.createOrder(orderIngredientsIdList, accessToken);
-        response2
+        Response createOrderResponse = orderClient.createOrder(orderIngredientsIdList, accessToken);
+        createOrderResponse
                 .then()
                 .statusCode(200)
                 .body("success", equalTo(true))
@@ -65,7 +66,7 @@ public class CreateOrderTest {
     @DisplayName("Create order with ingredient invalid id")
     public void createOrderWithInvalidIngredientId(){
         ArrayList<String> listInvalidId = new ArrayList<>();
-        listInvalidId.add("6d58a2d7-77b3-4c67-8004-dbd31e937fce");
+        listInvalidId.add(invalidOrderId);
 
         Response response = orderClient.createOrder(new Order(listInvalidId),"");
         response

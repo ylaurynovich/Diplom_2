@@ -23,7 +23,7 @@ public class UserLoginTest {
         user = UserFaker.getRandomUserData();
         Response response = userClient.createUser(user);
         accessToken = response.path("accessToken");
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(2);
     }
 
     @Test
@@ -44,7 +44,7 @@ public class UserLoginTest {
     @DisplayName("Invalid User login")
     public void userInvalidLoginTest(){
         User user = UserFaker.getRandomUserData();
-        user.name = "";
+        user.setName("");
         Response response = userClient.loginUser(user);
         response
                 .then()

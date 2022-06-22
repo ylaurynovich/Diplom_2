@@ -3,7 +3,6 @@ import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -19,7 +18,7 @@ public class CreateUserTest {
     @DisplayName("Create random user data")
     public void setUp() throws InterruptedException {
         user = UserFaker.getRandomUserData();
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(2);
     }
 
     @Test
@@ -41,6 +40,7 @@ public class CreateUserTest {
         User duplicateUser = UserFaker.getRandomUserData();
         userClient.createUser(duplicateUser);
         Response response = userClient.createUser(duplicateUser);
+        accessToken = response.path("accessToken");
         response
                 .then()
                 .statusCode(403)
@@ -53,6 +53,7 @@ public class CreateUserTest {
     public void createUserMissingDataTest(){
         User user = new User();
         Response response = userClient.createUser(user);
+        accessToken = response.path("accessToken");
         response
                 .then()
                 .statusCode(403)
